@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
+	<meta name="description" content="purchase page for Salil Nanda">
+	<meta name="author" content="Salil Nanda">
+	<title>Purchase Page: Salil Nanda</title>	
+<style>
+@font-face {
+    font-family: Ek Mukta;
+    src: url("https://fonts.googleapis.com/css?family=Ek+Mukta");
+}
+.container {
+    background-color: lightblue;
+    margin: 2px;
+    display: block;
+    font-family: Ek Mukta;
+    text-align: center;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+li.a {
+    list-style-type: square;
+}
+p.header {
+	font-size: 25px;
+	font-style: oblique;
+	font-variant: small-caps;
+}
+
+</style>
+</head>
+
+<body class="container">
+
+	<h1>Access a JSON object using JavaScript for Purchase Page</h1>
+	<div id="orderInfo">
+		<p class="header">Order Information</p><hr/>
+		<p id="order"></p>
+		<button type="button" onclick="delItem1()">Delete Item 1</button>
+		<p id="item1"></p>
+		<button type="button" onclick="delItem2()">Delete Item 2</button> <br/><br/>
+		<p id="item2"></p>
+		<button type="button" onclick="getTotal()">Click Me for Total!</button> 
+		<p id="total"></p>
+	</div>
+	
+	<div id="customerInfo">
+		<p class="header">Customer Information</p><hr/>
+		<p id="customer"></p>
+	</div>
+
+	<h3 id="shippingInfo">Shipping Information</h3>
+		<p class="header"></p><hr/>
+		<form id="customerInfo" action="" method="post">
+			First Name: <br/>
+			<input type="text" name="fname" value="Salil" readonly><br/>
+			Last Name: <br/>
+			<input type="text" name="lname" value="Nanda" readonly><br/>
+			Address line 1: <br/>
+			<input type="text" name="address1" value="35596 Fremont Blvd." readonly><br/>
+			Address line 2: (optional) <br/>
+			<input type="text" name="address2" placeholder="Apt, Suite, Bldg, Floor, etc"><br/>
+			City: <br/>
+			<input type="text" name="city" value="Fremont"><br/>
+			State: <br/>
+			<select name="state" required>
+				<option value="AL">AL</option>
+				<option value="AK">AK</option>
+				<option value="AZ">AZ</option>
+				<option value="CA">CA</option>	
+				<option value="CO">CO</option>
+				<option value="CT">CT</option>	
+				<option value="DC">DC</option>
+				<option value="DE">DE</option>
+				<option value="FL">FL</option>
+				<option value="GA">GA</option>
+				<option value="HI">HI</option>
+				<option value="IL">IL</option>
+				<option value="IN">IN</option>
+				<option value="RI">RI</option>
+				<option value="KS">KS</option>
+				<option value="LA">LA</option>
+				<option value="MA">MA</option>
+				<option value="MD">MD</option>
+				<option value="MI">MI</option>
+				<option value="ND">ND</option>
+				<option value="NE">NE</option>
+				<option value="NH">NH</option>
+				<option value="NJ">NJ</option>
+				<option value="NM">NM</option>
+				<option value="NV">NV</option>
+				<option value="NY">NY</option>
+				<option value="OH">OH</option>
+				<option value="PA">PA</option>
+				<option value="RI">RI</option>
+				<option value="SD">SD</option>
+				<option value="TX">TX</option>
+				<option value="UT">UT</option>
+				<option value="VI">VI</option>
+				<option value="WI">WI</option>
+				<option value="WV">WV</option>
+				<option value="WY">WY</option>
+			</select><br/>
+			ZIP code: <br/>
+			<input type="number" name="zipcode" required><br/>
+			Phone Number: <br/>
+			<input type="tel" name="usrtel" required><br/>
+			E-mail: <br/>
+			<input type="email" name="userid"><br/>
+		</form>
+	</div>
+
+	<div id="paymentInfo"></div>
+		<p class="header">Payment Information</p><hr/>
+
+		<form id="paymentType" action="">
+			Click on Payment Type: <br/>
+	  		<input type="radio" name="pay"> Credit Card
+	  		<input type="radio" name="pay"> PayPal<br/><br/>
+		</form>
+		<form id="securedInfo" action="/echo.php" method="post">
+			Card Type: <br/> <select name="Card type" required>
+				<option value="amex">American Express</option>
+				<option value="visa">Visa</option>
+				<option value="mastercard">MasterCard</option>	
+				<option value="discover">Discover</option>
+				<option value="ecard">EmployeeCard</option>	
+				<option value="giftcard">GiftCard</option>
+			</select><br/><br/>
+			Card number: <input type="number" name="inputCard" required><br/>
+			<input type="hidden" name="card#" id="cardNumber" maxlength="4"/><br/>
+			Expiry Date:
+				<input type="date" name="expDate" placeholder="mm/yyyy">
+				<input type="hidden" name="expiry" id="expiry" maxlength="4"/><br/>
+			Security code:
+			<input type="number" name="scode" min="100" max="999" required><br/><br/>
+			<input type="submit" value ="SUBMIT">
+			<input type= "reset" value ="RESET">
+		</form>
+	</div>
+
+
+<script type="text/javascript">
+
+var i, totalCost, price =[], x=""; 
+var sum = 0, taxRate = 0.1, shipCost = 5;
+var myOrder = {
+	"customerInfo": {"firstName": "Salil", "lastName": "Nanda", "contactInfo": 6178380303, "address": "35596 Goldsmith Drive, Fremont, California"},
+	"lineItems": [{"itemDescription": "Apple MacBook", "unitPrice": 923, "modelNumber": "APP5619"},
+                  {"itemDescription": "Sony Bravia TV", "unitPrice": 1147, "modelNumber": "SNY2409"}
+	]
+};
+
+for (i=0; i<myOrder.lineItems.length; ++i) {
+	x += "<li class='a'>" + myOrder.lineItems[i].itemDescription + "<br/>" + 
+	"$" + myOrder.lineItems[i].unitPrice + "</li>";
+};
+
+document.getElementById("order").innerHTML = x
+
+for(i in myOrder.lineItems) {
+		price.push(myOrder.lineItems[i].unitPrice);
+};
+
+
+function getTotal() {
+	for (i=0; i<price.length; ++i) {
+		sum += price[i];
+	}
+	totalCost = (sum * (1 + taxRate)) + shipCost; 
+	document.getElementById("total").innerHTML = totalCost;
+	delItem1(totalCost);
+	delItem2(totalCost);
+}
+
+function delItem1( totalCost ) {
+	var total = totalCost;
+	if (myOrder.lineItems[0].unitPrice.isDeleted = true) {
+    	total -= price[0] * (1 + taxRate).toFixed(2);	
+		document.getElementById("item1").innerHTML = total;
+    } 
+    
+}
+function delItem2( totalCost ) {
+	var total = totalCost;
+ 	if (myOrder.lineItems[1].unitPrice.isDeleted = true) {
+    	total -= price[1] * (1 + taxRate);
+    	document.getElementById("item2").innerHTML = total;
+    }	
+}
+
+var customerName = myOrder.customerInfo.firstName + " " + myOrder.customerInfo.lastName;
+var customerAddress = myOrder.customerInfo.address;
+
+document.getElementById("customer").innerHTML = customerName + "<br/>" + customerAddress;
+</script>
+</body>
+</html>
