@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="device-width" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Salil Nanda">
+	<title>Illustration of Object Constructors</title>
+	<style>
+
+	#container {
+    	background-color:rgb(0,0,0);
+    	background-image:url(http://www.zingerbugimages.com/backgrounds/white_parchment_paper_background_1800x1600.jpg);
+    	background-position:center center;
+    	background-repeat:no-repeat;
+    	background-attachment:fixed;
+    	margin: 5px;
+    	text-align: center;
+    	font-family: Tahoma;
+    	overflow: auto;
+    }
+    button[type="button"] {
+    	padding: 5px;
+		resize: vertical;
+		border-radius: 5px;		
+    }
+
+    #totalcost {
+    	font-weight: bold;
+    	font-size: 25px;
+    }
+
+    #customer {
+    	font-size: 20px;	
+    }
+	</style>
+</head>
+<body id="container">
+	<h1><u>Illustration of Object Constructors</u></h1>
+	<div id="customer">
+		<h2>Customer Information</h2>
+		<p id="customerID"></p>
+		<p id="customerContact"></p><hr/>
+	</div>
+	<div id="order">
+		<h2>Order Information</h2>
+		<button type="button" onclick="displayOrder()">List of Orders</button>
+		<p id="orders"></p>
+		<strong><p id="message" style="color:red"></p></strong>
+		<button type="button" onclick="deleteItem1()">Delete Item 1</button>
+		<button type="button" onclick="addItem1()">Add Item 1</button>
+		<p id="item1"></p><p id="item1p"></p>
+		<button type="button" onclick="deleteItem2()">Delete Item 2</button>
+		<button type="button" onclick="addItem2()">Add Item 2</button>
+		<p id="item2"></p><p id="item2p"></p><hr/>
+		<h2>Click below to refresh "Total" whenever you delete/add item</h2>
+		<button type="button" id="totalcost" onclick="getTotal()">"Refresh" Total</button>
+		<p id="total"></p>
+		<h4> The calculations work!!! &#x263A</h4>
+	</div>
+
+	<script>
+    "use strict";
+
+    var i = 0;
+
+    // Prototype for "Customer" object
+    function Customer(firstName, lastName, address) {
+		if(!(this instanceof Customer)) {
+			return new Customer(firstName, lastName, address);
+		}
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.fullName = ()=>{return this.firstName + " " + this.lastName; } //method to access full name directly
+	};
+
+	// Constructor for creating Customer object
+	var customer = new Customer("Salil", "Nanda", "Fremont, CA");
+
+	// Prototype for "Item" object
+	function Item(quantity, product) {
+		if (!(this instanceof Item)) {
+			return new Item(quantity,product);
+		}
+  		this.quantity = quantity;
+  		this.product = product;
+	}
+
+	// New methods added to Item prototype
+	Item.prototype.changeQuantity = function(x) {
+		var message;
+		message = document.getElementById("message");
+    	message.innerHTML = "";
+		try {
+			if (isNaN(x)) throw "not a number";
+			if (x<0) throw "negative"
+			return this.quantity = x
+		}
+		catch (err) {
+			message.innerHTML = "Input is " + err;
+		}	
+	}
+
+	Item.prototype.addQuantitytoTotal = function(x) {
+		var message;
+		message = document.getElementById("message");
+    	message.innerHTML = "";
+		try {
+			if (x=="") throw "empty";
+			if (isNaN(x)) throw "not a number";
+			if (x<0) throw "negative"
+			return this.quantity += x
+		}
+		catch (err) {
+			message.innerHTML = "Input is " + err;
+		}	
+	};
+
+	// Constructor for creating Item objects
+	var myItem1 = new Item(1, "Apple MacBook");
+	var myItem2 = new Item(2, "A set of 4 Corell Plates");
+
+
+	function deleteItem1() {
+		document.getElementById("item1").innerHTML ="Item 1: (" + myItem1.changeQuantity(0) + ")";
+	}
+	function deleteItem2() {
+		document.getElementById("item2").innerHTML ="Item 2: (" + myItem2.changeQuantity(0) + ")";
+	}
+
+	function addItem1() {
+		document.getElementById("item1p").innerHTML ="Item 1: " + myItem1.addQuantitytoTotal(1);
+	}
+	function addItem2() {
+		document.getElementById("item2p").innerHTML ="Item 2: " + myItem2.addQuantitytoTotal(1); 
+	}
+
+	// Creating an array of "item" objects using constructor
+    var lineItems = [myItem1, myItem2];
+
+	function getTotal() {
+		var q = 0;
+
+		for (var i=0; i<lineItems.length; ++i) {
+			q += lineItems[i].quantity
+		}
+		document.getElementById("total").innerHTML = q;
+	}
+
+    // JavaScript object of myOrder containing "customer" and "lineItems" objects
+	var myOrder = {customer, lineItems};
+
+	// JSON representation of myOrder with try/catch/Error exception
+	try {
+		var myJSON = JSON.parse("myOrder"); // to convert into JS object
+	} 
+	catch(e) {
+		if (e instanceof SyntaxError)
+			alert("Syntax Error: " + e.message);
+		else
+			alert("Something went wrong: " + e.message);
+	}
+	
+	//  Function declarations to access object properties
+	function displayCustomer() {
+		document.getElementById("customerID").innerHTML = myOrder.customer.fullName();
+		document.getElementById("customerContact").innerHTML = myOrder.customer.address;
+	}
+
+	function displayOrder() {
+		var i, text = "";
+		for (i = 0; i < myOrder.lineItems.length; i++) {
+    		text +=  myOrder.lineItems[i].product + "<br/>";
+    		text += "<i>" + "Quantity: " + "</i>" + myOrder.lineItems[i].quantity + "<br/>";
+		}
+		document.getElementById("orders").innerHTML = text;
+	}
+	window.onload = function () {
+		displayCustomer();
+	}
+	</script>
+	
+</body>
+</html>

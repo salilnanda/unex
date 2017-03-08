@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="device-width" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Salil Nanda">
+	<title>Purchase Page</title>
+	<style>
+
+	* {
+    box-sizing: border-box;
+    }
+
+    .container {
+    	background-color:rgb(0,0,0);
+    	background-image:url(http://www.zingerbugimages.com/backgrounds/white_parchment_paper_background_1800x1600.jpg);
+    	background-position:center center;
+    	background-repeat:no-repeat;
+    	background-attachment:fixed;
+    	margin: 5px;
+    	text-align: center;
+    	font-family: Tahoma;
+    	overflow: auto;
+    }
+
+    @media screen and (min-width: 480px) {
+		.container {text-align: center;}
+	}
+	
+	#header ul {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		text-align: center;
+		overflow: hidden;
+		background-color: #991C1C;
+		border: 1px solid black;
+	}
+	
+	#header li {
+		border-left: 1px solid black;
+		border-collapse: collapse;
+		display: inline-block;
+	
+	}
+
+	#header li:last-child {
+		border-right: 1px solid black;
+	}
+	#header li a {
+		color: white;
+		font-size: 25px;
+		font-variant: small-caps;
+		font-weight: bold;
+		padding: 7px 14px;
+		background-color: #991C1C;
+		text-decoration: none;
+	}
+	#header li a:hover {
+		background-color: #661313;
+	}
+	#itemInfo, #customerInfo, #paymentInfo {
+		display: inline-block;
+		width: 100%;
+	}
+	#customer {
+		font-style: italic;
+	}
+
+	input[type=text],[type=email], select {
+		padding: 5px;
+		resize: vertical;
+		border-radius: 5px;
+	}
+
+	input[type=submit], [type=reset] {
+		font-size: 15px;
+		font-weight: bold;
+		text-align: center;
+		background-color: #991C1C;
+    	color: white;
+	}
+	input[type=submit]:hover, input[type=reset]:hover {
+    	background-color: #661313;
+	}
+
+	
+	</style>
+</head>
+<body class="container">
+	<h1>Demonstrating Purchase Page Layout</h1>
+
+	<div id="header">
+		<ul>
+			<li><a href="#itemInfo">Shipping Info</a</li>
+			<li><a href="#customerInfo">Customer Info</a></li>
+			<li><a href="#paymentInfo">Payment Info</a></li>
+		</ul>
+	</div>
+
+	<div id="itemInfo">
+		<h2>Shipping Information</h2>
+		<div id="item1 info">
+			<p id="item1Detail"></p>
+			<button type="button" onclick="document.getElementById('item1Detail').style.display = 'none'">Delete Item 1</button>
+		</div>
+		<div id="item2 info">
+			<p id="item2Detail"></p>
+			<button type="button" name="delete" onclick="document.getElementById('item2Detail').style.display = 'none'">Delete Item 2</button>
+		</div><br/>
+
+		<div id="cost">
+			<button type="button" name="total" onclick="getTotal()">Total Cost</button>
+			<p id="total"></p>
+		</div>
+		<div id="customer">
+		<form action="" method="post">
+				<br/>First Name: <input type="text" name="fname" value="Salil">
+				Last Name: 	<input type="text" name="lname" value="Nanda"><br/><br/>
+				Address line 1: <input type="text" name="address1" value="35596 Goldsmith Dr" size="55"><br/><br/>
+				Address line 2 (optional): <input type="text" name="address2" placeholder="Apt, Suite, Bldg, Floor, etc" size = "44"><br/><br/>
+				City: <input type="text" name="city" value="Fremont">
+				State:
+				<select name="state" required>
+					<option value="AL">AL</option>
+					<option value="AK">AK</option>
+					<option value="AZ">AZ</option>
+					<option value="CA" selected>CA</option>	
+					<option value="CO">CO</option>
+					<option value="CT">CT</option>	
+					<option value="DC">DC</option>
+					<option value="DE">DE</option>
+					<option value="FL">FL</option>
+					<option value="GA">GA</option>
+					<option value="HI">HI</option>
+					<option value="IL">IL</option>
+					<option value="IN">IN</option>
+					<option value="RI">RI</option>
+					<option value="KS">KS</option>
+					<option value="LA">LA</option>
+					<option value="MA">MA</option>
+					<option value="MD">MD</option>
+					<option value="MI">MI</option>
+					<option value="ND">ND</option>
+					<option value="NE">NE</option>
+					<option value="NH">NH</option>
+					<option value="NJ">NJ</option>
+					<option value="NM">NM</option>
+					<option value="NV">NV</option>
+					<option value="NY">NY</option>
+					<option value="OH">OH</option>
+					<option value="PA">PA</option>
+					<option value="RI">RI</option>
+					<option value="SD">SD</option>
+					<option value="TX">TX</option>
+					<option value="UT">UT</option>
+					<option value="VI">VI</option>
+					<option value="WI">WI</option>
+					<option value="WV">WV</option>
+					<option value="WY">WY</option>
+				</select><br/><br/>
+				ZIP code: <input type="text" id="zip" required>
+				Phone Number: <input type="tel" id="tel" size="18" required><br/><br/>
+				E-mail: <input type="email" name="userid" size="62"><br/>
+			</form>
+		</div>
+	</div>
+	<hr/>
+
+	<div id="customerInfo">
+		<h2>Customer Information</h2>
+		<p id="name"></p>
+		<p id="address"></p>
+	</div><hr/>
+
+	<div id="paymentInfo">
+		<h2>Payment Information</h2>
+
+		<form id="paymentType" action="">
+			Click on Payment Type: <br/>
+	  		<input type="radio" name="pay"> Credit Card
+	  		<input type="radio" name="pay"> PayPal<br/><br/>
+		</form>
+		<form id="securedInfo" action="/echo.php" method="post">
+			Card Type: <br/> <select name="Card type" required>
+				<option value="amex">American Express</option>
+				<option value="visa">Visa</option>
+				<option value="mastercard">MasterCard</option>	
+				<option value="discover">Discover</option>
+				<option value="ecard">EmployeeCard</option>	
+				<option value="giftcard">GiftCard</option>
+			</select><br/><br/>
+			Card number: <br/> <input type="number" name="inputCard" required>
+			Expiry Date:
+				<input type="date" name="expDate" placeholder="mm/yy">
+				<input type="hidden" name="expiry" id="expiry" maxlength="4"/><br/>
+			Security code:
+			<input type="number" name="scode" min="100" max="999" required><br/><br/>
+			<input type="submit" value ="SUBMIT">
+			<input type= "reset" value ="RESET">
+		</form>
+	</div>
+
+	<script>
+	"use strict";
+
+	// defining JSON data to create "myOrder" object
+	var myOrder = {
+		"customerInfo": {"name": "Salil Nanda", "address": "35596 Goldsmith Dr, Fremont, CA"},
+		"lineItems"   : [
+				{"itemDescription": "Apple MacBook", "unitPrice": 895.45}, 
+				{"itemDescription": "55-inch Sony Bravia TV", "unitPrice": 1241.60}
+		]
+ 	};
+
+ 	// accessing the Order values by variable assignment
+ 	var customerName = myOrder.customerInfo.name;
+ 	document.getElementById("name").innerHTML = customerName;
+ 	var customerAddress = myOrder.customerInfo.address;
+ 	document.getElementById("address").innerHTML = customerAddress;
+ 	
+ 	var item1Detail = myOrder.lineItems[0].itemDescription + ": $" +
+ 					  myOrder.lineItems[0].unitPrice;;
+ 	document.getElementById("item1Detail").innerHTML = item1Detail;
+ 	
+ 	var item2Detail = myOrder.lineItems[1].itemDescription + ": $" +
+ 					  myOrder.lineItems[1].unitPrice;;
+ 	document.getElementById("item2Detail").innerHTML = item2Detail;
+
+
+ 	function getTotal() {
+ 		var sum, taxRate = 0.1, shipCost = 5;
+ 		if (document.getElementById("item1Detail").style.display === "none" && document.getElementById("item2Detail").style.display === "none") {
+ 			sum = 0;
+ 		}
+ 		else if (document.getElementById("item1Detail").style.display === "none") {
+ 			sum = (myOrder.lineItems[1].unitPrice*(1+taxRate)) + shipCost;
+ 			sum = sum.toFixed(2);
+ 		}
+ 		else if (document.getElementById("item2Detail").style.display === "none") {
+ 			sum = (myOrder.lineItems[0].unitPrice*(1+taxRate)) + shipCost;
+ 			sum = sum.toFixed(2);
+ 		}
+ 		else {
+ 			sum = ((myOrder.lineItems[0].unitPrice + myOrder.lineItems[1].unitPrice) * (1+taxRate) + shipCost);
+ 			sum = sum.toFixed(2);
+ 		}
+ 		document.getElementById("total").innerHTML = "Please pay: $" + sum
+ 	}
+
+	</script>
+	
+</body>
+</html>

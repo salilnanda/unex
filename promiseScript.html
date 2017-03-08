@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Usage of Promise Method</title>
+</head>
+<body>
+	<h1>Promise method to access JSON data</h1>
+	<button type="button" onclick="loadData()">Click</button>
+	<p id="input"></p>
+	<script>
+
+	var isJSONLoaded = true;
+
+	var request = new Promise (
+		function (resolve, reject) {
+			if(isJSONLoaded) {
+				var getMyOrder = {
+					"customerInfo": {"name":"Salil", "address": "Fremont, CA"},
+					"lineItems": [
+						{"product": "Apple MacBook", "price": 895.95}, 
+						{"product": "Sony Bravia TV 55-inch", "price": 1245.50}
+					]
+				};
+				resolve(getMyOrder);		//fulfilled
+			} else {
+				var reason = new Error("Data not loaded successfully");
+				reject(reason);				//rejected
+			}
+		}
+	);
+
+	var loadData = function() {
+		request	
+			.then(function(fulfilled) {
+				// Great, it was loaded successfully.
+				console.log(fulfilled);
+			})
+			.catch(function(error) {
+				//Oops, there is some issue.
+				console.log(error.message)
+			});
+
+	};
+
+	document.getElementById("input").innerHTML = loadData();
+
+	</script>
+	
+</body>
+</html>

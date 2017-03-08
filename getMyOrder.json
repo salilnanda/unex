@@ -1,0 +1,7 @@
+myOrder = {
+	"customerInfo":{"firstName":"Salil", "lastName":"Nanda", "age": 31}, 
+	"lineItems": [
+		{"itemDescription": "Apple MacBook", "unitPrice": 895.95},
+		{"itemDescription": "Sony Bravia TV", "unitPrice": 1247.45}
+		]
+	}
