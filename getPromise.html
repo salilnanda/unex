@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Promise</title>
+</head>
+<body>
+
+	<script>
+var request = function(url) {new Promise (
+	function (resolve, reject) {
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("GET", "getMyOrder.json", true);
+			xhttp.onreadystatechange = function() {
+    			if (this.readyState == 4 && this.status == 200) {
+    				resolve(xhttp.responseText);
+    			} else {
+    				reject(xhttp.statusText);
+    			}
+    		xhttp.send();
+			}
+		);
+	}
+}
+var getData = function() {
+		request	
+			.then(function(fulfilled) {
+				// Great, it was loaded successfully.
+				console.log(fulfilled);
+			})
+			.catch(function(error) {
+				//Oops, there is some issue.
+				console.log(error.message)
+			});
+
+	};	
+</script>
+	
+</body>
+</html>
+
+
+
